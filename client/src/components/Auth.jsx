@@ -31,7 +31,7 @@ const Auth = () => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVERURL}/${endpoint}`,
+        `http://localhost:8000/${endpoint}`,
         {
           method: "POST",
           headers: {
