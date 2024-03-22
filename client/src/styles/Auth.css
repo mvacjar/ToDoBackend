@@ -1,0 +1,66 @@
+input {
+  min-width: 75%;
+}
+
+form {
+  min-height: 450px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-auth {
+  font-size: 2.5rem;
+  margin: 2rem;
+}
+
+.submit-button,
+.submit-button {
+  background-color: #b468fb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 20%;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 0 #00000033;
+}
+
+.submit-button:hover,
+.submit-button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.submit-button:active,
+.submit-button:active {
+  cursor: pointer;
+  transform: scale(1);
+}
+
+.auth-option-signup {
+  margin-top: 4rem;
+}
+
+.text-auth {
+  margin: 1rem;
+  font-size: 1rem;
+  color: white;
+}
+
+.signup-button,
+.login-button {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  color: #b468fb;
+}

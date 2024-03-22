@@ -1,0 +1,15 @@
+{
+  "name": "todobackend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)",
+    "server": "node ./server/server.js",
+    "client": "cd client && npm start"
+  },
+  "keywords": [],
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "if-env": "^1.0.4"
+  }
+}

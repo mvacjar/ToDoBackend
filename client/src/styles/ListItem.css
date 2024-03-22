@@ -1,0 +1,75 @@
+.listItem-container {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #a23effb1;
+  box-shadow: 0 3px 10px #552286a8;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tick-image {
+  fill: none;
+  stroke: #a442ff;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 10px;
+  stroke-width: 32;
+  stroke-miterlimit: 10;
+}
+
+.task-title  {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-size: 1rem;
+  overflow: auto;
+  max-height: 3rem;
+}
+
+.progressBar-container {
+  display: flex;
+  align-items: center;
+}
+
+.outer-bar {
+  height: 1rem;
+  background-color: #6cfcfc2c;
+  width: 12rem;
+  flex-shrink: 0;
+  border-radius: 7px;
+  margin: 0rem 1rem;
+}
+
+.inner-bar {
+  height: 1rem;
+  width: 0;
+  background-color: #6cfcfc;
+  border-radius: 7px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.edit-button {
+  background-color: #a442ff;
+  margin: 0.5rem;
+}
+
+.delete-button {
+  background-color: #f90db6;
+  margin: 0.5rem;
+}

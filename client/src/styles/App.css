@@ -1,0 +1,60 @@
+/* -- Global Settings -- */
+* {
+  font-family: sans-serif, Verdana, Geneva;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #1c1c4b;
+  color: #e9e9fa;
+}
+
+input {
+  margin: 11px 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #a442ff;
+}
+
+button {
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  color: #e9e9fa;
+  font-weight: 600;
+  box-shadow: 2px 2px 5px #141439;
+}
+
+button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+button:active {
+  cursor: pointer;
+  transform: scale(1);
+}
+
+/* -- App -- */
+
+.app-container {
+  min-width: 45rem;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 1rem;
+  border: 1px solid #a442ff;
+  box-shadow: 0 10px 24px #a442ffa8;
+  border-radius: 1rem;
+}
