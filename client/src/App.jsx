@@ -23,7 +23,9 @@ function App() {
     }
   };
 
-  useEffect(() => getData, []);
+  useEffect(() => {
+    getData();
+  }, []);
 
   console.log(task);
 
