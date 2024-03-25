@@ -16,63 +16,26 @@ const Auth = () => {
     setIsLogIn(status);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, endpoint) => {
     e.preventDefault();
-    if (!isLogin && password !== confirmPassword) {
-      setError("Make sure passwords match!");
+    if (!isLogIn && password !== confirmPassword) {
+      setError("Passwords don't match");
       return;
     }
-
-    const endpoint = isLogin ? "login" : "signup";
-    const formData = {
-      email,
-      password,
-    };
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVERURL}/${endpoint}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-      const data = await response.json();
-      if (data.detail) {
-        setError(data.detail);
-      } else {
-        setCookie("Email", data.email);
-        setCookie("AuthToken", data.token);
-        window.location.relocate();
-      }
-    } catch (error) {
-      setError(error.message || "An error occurred");
+    const response = await fetch(`http://localhost:8000/${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    if (data.detail) {
+      setError(data.detail);
+    } else {
+      setCookies("Email", data.email);
+      setCookies("AuthToken", data.token);
+      window.location.reload();
     }
   };
-
-  // const handleSubmit = async (e, endpoint) => {
-  //   e.preventDefault();
-  //   if (!isLogIn && password !== confirmPassword) {
-  //     setError("Passwords don't match");
-  //     return;
-  //   }
-  //   const response = await fetch(`http://localhost:8000/${endpoint}`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ email, password }),
-  //   });
-  //   const data = await response.json();
-  //   if (data.detail) {
-  //     setError(data.detail);
-  //   } else {
-  //     setCookies("Email", data.email);
-  //     setCookies("AuthToken", data.token);
-  //     window.location.reload();
-  //   }
-  // };
 
   return (
     <div className="auth-container">
