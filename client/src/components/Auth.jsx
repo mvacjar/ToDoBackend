@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 import '../styles/Auth.css';
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const Auth = () => {
   const [error, setError] = useState(false);
@@ -22,7 +23,7 @@ const Auth = () => {
       setError("Passwords don't match");
       return;
     }
-    const response = await fetch(`${process.env.SERVERURL}/${endpoint}`, {
+    const response = await fetch(`${SERVER_URL}/${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
