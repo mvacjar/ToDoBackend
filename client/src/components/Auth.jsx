@@ -19,6 +19,11 @@ const Auth = () => {
 
   const handleSubmit = async (e, endpoint) => {
     e.preventDefault();
+
+    if (!email.trim() || !password.trim()) {
+      setError('Please fill in all fields.');
+      return;
+    }
     if (!isLogIn && password !== confirmPassword) {
       setError("Passwords don't match");
       return;
@@ -29,7 +34,10 @@ const Auth = () => {
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
-    if (data.detail) {
+    if (response.status === 409) {
+      // User already exists
+      setError('User already exists. Please log in instead.');
+    } else if (data.detail) {
       setError(data.detail);
     } else {
       setCookies('Email', data.email);
