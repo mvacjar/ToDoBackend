@@ -70,9 +70,6 @@ app.delete("/todos/:id", async (req, res) => {
 // login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    return res.json({ detail: "Please enter email and password" });
-  }
   try {
     const users = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
@@ -96,9 +93,6 @@ app.post("/login", async (req, res) => {
 // signup
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    return res.json({ detail: "Please enter email and password" });
-  }
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 
