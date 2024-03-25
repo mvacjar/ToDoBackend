@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import ListHeader from "./components/ListHeader";
-import ListItem from "./components/ListItem";
-import Auth from "./components/Auth";
-import "./styles/App.css";
+import { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import ListHeader from './components/ListHeader';
+import ListItem from './components/ListItem';
+import Auth from './components/Auth';
+import './styles/App.css';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -14,7 +14,7 @@ function App() {
   const getData = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVERURL}todos/${userEmail}`
+        `${process.env.REACT_APP_SERVERURL}/todos/${userEmail}`
       );
       const json = await response.json();
       setTask(json);
@@ -31,11 +31,11 @@ function App() {
 
   return (
     <>
-      <div className="app-container">
+      <div className='app-container'>
         {!authToken && <Auth />}
         {authToken && (
           <>
-            <ListHeader listName={"Your ToDo List"} getData={getData} />
+            <ListHeader listName={'Your ToDo List'} getData={getData} />
             {sortedTasks?.map((task) => (
               <ListItem key={task.id} task={task} getData={getData} />
             ))}
