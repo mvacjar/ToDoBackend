@@ -18,12 +18,12 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isLogIn && password !== confirmPassword) {
+    if (!isLogin && password !== confirmPassword) {
       setError("Make sure passwords match!");
       return;
     }
 
-    const endpoint = isLogIn ? "login" : "signup";
+    const endpoint = isLogin ? "login" : "signup";
     const formData = {
       email,
       password,
@@ -31,7 +31,7 @@ const Auth = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/${endpoint}`,
+        `${process.env.REACT_APP_SERVERURL}/${endpoint}`,
         {
           method: "POST",
           headers: {
@@ -44,14 +44,35 @@ const Auth = () => {
       if (data.detail) {
         setError(data.detail);
       } else {
-        setCookies("Email", data.email);
-        setCookies("AuthToken", data.token);
+        setCookie("Email", data.email);
+        setCookie("AuthToken", data.token);
         window.location.relocate();
       }
     } catch (error) {
       setError(error.message || "An error occurred");
     }
   };
+
+  // const handleSubmit = async (e, endpoint) => {
+  //   e.preventDefault();
+  //   if (!isLogIn && password !== confirmPassword) {
+  //     setError("Passwords don't match");
+  //     return;
+  //   }
+  //   const response = await fetch(`http://localhost:8000/${endpoint}`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ email, password }),
+  //   });
+  //   const data = await response.json();
+  //   if (data.detail) {
+  //     setError(data.detail);
+  //   } else {
+  //     setCookies("Email", data.email);
+  //     setCookies("AuthToken", data.token);
+  //     window.location.reload();
+  //   }
+  // };
 
   return (
     <div className="auth-container">
@@ -77,7 +98,7 @@ const Auth = () => {
             {error && <p>{error}</p>}
             <div className="auth-option-signup">
               <p className="text-auth">
-                Don&apos;t you already have an account?{" "}
+                Don't you already have an account?{" "}
                 <button
                   className="signup-button"
                   onClick={() => viewLogin(false)}
