@@ -22,11 +22,14 @@ const Auth = () => {
       setError("Passwords don't match");
       return;
     }
-    const response = await fetch(`${REACT_APP_SERVERURL}${endpoint}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVERURL}${endpoint}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      }
+    );
     const data = await response.json();
     if (data.detail) {
       setError(data.detail);
