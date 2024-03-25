@@ -5,7 +5,7 @@ import "../styles/App.css";
 
 function Modal({ mode, setShowModal, task, getData }) {
   const editMode = mode === "edit" ? true : false;
-  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const [cookies, setCookies, removeCookies] = useCookies(null);
 
   const [data, setData] = useState({
     user_email: editMode ? task.user_email : cookies.Email,
@@ -17,7 +17,7 @@ function Modal({ mode, setShowModal, task, getData }) {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
+      const response = await fetch(`${REACT_APP_SERVERURL}/todos/${task.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -37,7 +37,7 @@ function Modal({ mode, setShowModal, task, getData }) {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/todos`, {
+      const response = await fetch(`${REACT_APP_SERVERURL}/todos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 
 function ListHeader({ listName, getData }) {
   const [showModal, setShowModal] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const [cookies, setCookies, removeCookies] = useCookies(null);
 
   const logOut = () => {
     console.log("Logging out");
