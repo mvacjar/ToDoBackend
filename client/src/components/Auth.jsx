@@ -22,7 +22,7 @@ const Auth = () => {
       setError("Passwords don't match");
       return;
     }
-    const response = await fetch(`${REACT_APP_SERVERURL}/${endpoint}`, {
+    const response = await fetch(`${REACT_APP_SERVERURL}${endpoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
