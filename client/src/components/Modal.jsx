@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { useCookies } from "react-cookie";
-import "../styles/Modal.css";
-import "../styles/App.css";
+import { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import '../styles/Modal.css';
+import '../styles/App.css';
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function Modal({ mode, setShowModal, task, getData }) {
-  const editMode = mode === "edit" ? true : false;
+  const editMode = mode === 'edit' ? true : false;
   const [cookies, setCookies, removeCookies] = useCookies(null);
 
   const [data, setData] = useState({
     user_email: editMode ? task.user_email : cookies.Email,
-    title: editMode ? task.title : "",
+    title: editMode ? task.title : '',
     progress: editMode ? task.progress : 50,
     date: editMode ? task.date : new Date(),
   });
@@ -17,17 +18,14 @@ function Modal({ mode, setShowModal, task, getData }) {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVERURL}todos/${task.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...data,
-            title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
-          }),
-        }
-      );
+      const response = await fetch(`${serverUrl}/todos/${task.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
+        }),
+      });
       if (response.status === 200) {
         setShowModal(false);
         getData();
@@ -40,16 +38,16 @@ function Modal({ mode, setShowModal, task, getData }) {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVERURL}todos`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch(`${serverUrl}/todos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
           title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
         }),
       });
       if (response.status === 200) {
-        console.log("Todo created successfully");
+        console.log('Todo created successfully');
         setShowModal(false);
         getData();
       }
@@ -66,42 +64,42 @@ function Modal({ mode, setShowModal, task, getData }) {
   };
 
   return (
-    <div className="overlay-container">
-      <div className="modal-container">
-        <div className="title-container">
-          <h3 className="modal-title">Let's {mode} your task!</h3>
-          <button className="x-button" onClick={() => setShowModal(false)}>
+    <div className='overlay-container'>
+      <div className='modal-container'>
+        <div className='title-container'>
+          <h3 className='modal-title'>Let's {mode} your task!</h3>
+          <button className='x-button' onClick={() => setShowModal(false)}>
             X
           </button>
         </div>
-        <form className="form-container">
+        <form className='form-container'>
           <input
-            type="text"
+            type='text'
             required
             maxLength={30}
-            placeholder="Write your next task here"
-            name="title"
+            placeholder='Write your next task here'
+            name='title'
             value={data.title}
             onChange={handleChange}
           />
-          <label htmlFor="range" className="text-bar">
+          <label htmlFor='range' className='text-bar'>
             Drag to select your current progress!
           </label>
           <input
-            type="range"
-            id="range"
+            type='range'
+            id='range'
             required
-            min="0"
-            max="100"
-            name="progress"
+            min='0'
+            max='100'
+            name='progress'
             value={data.progress}
             onChange={handleChange}
           />
           <input
             className={mode}
-            type="submit"
+            type='submit'
             onClick={editMode ? editData : postData}
-            id="submit-button"
+            id='submit-button'
           />
         </form>
       </div>
