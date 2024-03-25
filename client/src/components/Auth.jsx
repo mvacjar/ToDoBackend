@@ -45,7 +45,7 @@ const Auth = () => {
       window.location.reload();
     }
   };
-  // update
+
   return (
     <div className='auth-container'>
       <form className='form-container'>
