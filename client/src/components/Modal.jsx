@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import '../styles/Modal.css';
 import '../styles/App.css';
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function Modal({ mode, setShowModal, task, getData }) {
   const editMode = mode === 'edit' ? true : false;
@@ -18,7 +18,7 @@ function Modal({ mode, setShowModal, task, getData }) {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${SERVER_URL}/todos/${task.id}`, {
+      const response = await fetch(`${serverUrl}/todos/${task.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -38,7 +38,7 @@ function Modal({ mode, setShowModal, task, getData }) {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${SERVER_URL}/todos`, {
+      const response = await fetch(`${serverUrl}/todos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

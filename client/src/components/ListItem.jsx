@@ -4,14 +4,14 @@ import TickIcon from './TickIcon';
 import Modal from './Modal';
 import '../styles/App.css';
 import '../styles/ListItem.css';
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function ListItem({ task, getData }) {
   const [showModal, setShowModal] = useState(false);
 
   const deleteItem = async () => {
     try {
-      const response = await fetch(`${SERVER_URL}/todos/${task.id}`, {
+      const response = await fetch(`${serverUrl}/todos/${task.id}`, {
         method: 'DELETE',
       });
       if (response.status === 200) {

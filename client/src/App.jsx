@@ -4,7 +4,7 @@ import ListHeader from './components/ListHeader';
 import ListItem from './components/ListItem';
 import Auth from './components/Auth';
 import './styles/App.css';
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -14,7 +14,7 @@ function App() {
 
   const getData = async () => {
     try {
-      const response = await fetch(`${SERVER_URL}/todos/${userEmail}`);
+      const response = await fetch(`${serverUrl}/todos/${userEmail}`);
       const json = await response.json();
       setTask(json);
     } catch (err) {
