@@ -9,8 +9,8 @@ function ListHeader({ listName, getData }) {
 
   const logOut = () => {
     console.log('Logging out');
-    removeCookie('Email');
-    removeCookie('AuthToken');
+    removeCookies('Email');
+    removeCookies('AuthToken');
     window.location.reload();
   };
 
