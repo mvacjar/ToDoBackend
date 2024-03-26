@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import ListHeader from './components/ListHeader';
-import ListItem from './components/ListItem';
-import Auth from './components/Auth';
-import './styles/App.css';
+import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import ListHeader from "./components/ListHeader";
+import ListItem from "./components/ListItem";
+import Auth from "./components/Auth";
+import "./styles/App.css";
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function App() {
@@ -32,11 +32,11 @@ function App() {
 
   return (
     <>
-      <div className='app-container'>
+      <div className="app-container">
         {!authToken && <Auth />}
         {authToken && (
           <>
-            <ListHeader listName={'Your ToDo List'} getData={getData} />
+            <ListHeader listName={"Your ToDo List"} getData={getData} />
             {sortedTasks?.map((task) => (
               <ListItem key={task.id} task={task} getData={getData} />
             ))}
@@ -48,3 +48,4 @@ function App() {
 }
 
 export default App;
+//
