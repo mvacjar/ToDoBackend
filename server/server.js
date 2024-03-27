@@ -12,7 +12,7 @@ app.use(express.json());
 
 //get all todos
 app.get("/todos/:userEmail", async (req, res) => {
-  const  userEmail  = req.params.userEmail;
+  const userEmail = req.params.userEmail;
   try {
     const todos = await pool.query(
       "SELECT * FROM todos WHERE user_email = $1",
@@ -21,6 +21,7 @@ app.get("/todos/:userEmail", async (req, res) => {
     res.json(todos.rows);
   } catch (err) {
     console.log(err);
+    res.status(500).send({ detail: "Internal server error" });
   }
 });
 
@@ -36,6 +37,7 @@ app.post("/todos", async (req, res) => {
     res.json(newToDo);
   } catch (err) {
     console.log(err);
+    res.status(500).send({ detail: "Internal server error" });
   }
 });
 
@@ -51,6 +53,7 @@ app.put("/todos/:id", async (req, res) => {
     res.json(editToDo);
   } catch (err) {
     console.error(err);
+    res.status(500).send({ detail: "Internal server error" });
   }
 });
 
@@ -64,6 +67,7 @@ app.delete("/todos/:id", async (req, res) => {
     res.json(deleteToDo);
   } catch (err) {
     console.error(err);
+    res.status(500).send({ detail: "Internal server error" });
   }
 });
 
@@ -87,6 +91,7 @@ app.post("/login", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
+    res.status(500).send({ detail: "Internal server error" });
   }
 });
 
@@ -107,9 +112,10 @@ app.post("/signup", async (req, res) => {
     res.json({ email, token });
   } catch (err) {
     console.error(err);
+    res.status(500).send({ detail: "Internal server error" });
+
     if (err) {
       res.json({ detail: "This email already exists" });
-      // res.json({ detail: err.detail });
     }
   }
 });
