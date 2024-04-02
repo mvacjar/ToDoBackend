@@ -20,3 +20,33 @@
   background-color: #f90db6;
   margin: 0.5rem;
 }
+
+@media (max-width: 600px) {
+  .listHeader-title {
+    font-size: 1.5rem;
+  }
+
+  .create-button,
+  .logout-button {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .listHeader-container {
+    flex-direction: column;
+  }
+
+  .button-container-header {
+    display: flex;
+    flex-direction: row;
+    place-content: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .create-button,
+  .logout-button {
+    margin: 2rem 1rem 0rem;
+  }
+}

@@ -50,11 +50,29 @@ button:active {
 /* -- App -- */
 
 .app-container {
-  min-width: 45rem;
+  width: 50rem;
   display: flex;
   flex-direction: column;
   padding: 3rem 1rem;
   border: 1px solid #a442ff;
   box-shadow: 0 10px 24px #a442ffa8;
   border-radius: 1rem;
+}
+
+@media (max-width: 800px) {
+  .app-container {
+    max-width: 40rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    max-width: 30rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .app-container {
+    max-width: 20rem;
+  }
 }

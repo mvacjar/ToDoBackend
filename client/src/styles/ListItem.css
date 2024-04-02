@@ -13,6 +13,13 @@
   padding: 1rem;
 }
 
+.data-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .info-container {
   display: flex;
   flex-direction: row;
@@ -72,4 +79,30 @@
 .delete-button {
   background-color: #f90db6;
   margin: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .outer-bar {
+    width: 8rem;
+  }
+
+  .edit-button,
+  .delete-button {
+    margin: 0.2rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  .button-container {
+    justify-content: space-evenly;
+  }
+
+  .edit-button,
+  .delete-button {
+    margin: 1rem 0rem 0rem 0rem;
+  }
 }
