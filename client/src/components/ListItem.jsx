@@ -49,7 +49,7 @@ function ListItem({ task, getData }) {
         }
       );
       if (response.status === 200) {
-        console.log("Todo created successfully");
+        console.log("Todo created successfully!");
         setShowModal(false);
         getData();
       }
