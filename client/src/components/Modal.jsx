@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import "../styles/Modal.css";
 import "../styles/App.css";
-const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function Modal({ mode, setShowModal, task, getData }) {
   const editMode = mode === "edit" ? true : false;
@@ -19,34 +18,17 @@ function Modal({ mode, setShowModal, task, getData }) {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-<<<<<<< HEAD
-        `https://todolist-fullstack-five.vercel.app/todos/${task.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-=======
-        `http://localhost:8000/todos/${task.id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
->>>>>>> c7f4fdcdbb970403b190bf6e660be4f7278d19c0
-            authorization: authToken,
-          },
-          body: JSON.stringify({
-            ...data,
-<<<<<<< HEAD
-            title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
-=======
-            title:
-              data.title.charAt(0).toUpperCase() +
-              data.title.slice(1),
->>>>>>> c7f4fdcdbb970403b190bf6e660be4f7278d19c0
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: authToken,
+        },
+        body: JSON.stringify({
+          ...data,
+          title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
+        }),
+      });
       if (response.status === 200) {
         setShowModal(false);
         getData();
@@ -59,7 +41,6 @@ function Modal({ mode, setShowModal, task, getData }) {
   const postData = async (e) => {
     e.preventDefault();
     try {
-<<<<<<< HEAD
       const response = await fetch(
         `https://todolist-fullstack-five.vercel.app/todos`,
         {
@@ -74,20 +55,6 @@ function Modal({ mode, setShowModal, task, getData }) {
           }),
         }
       );
-=======
-      const response = await fetch(`http://localhost:8000/todos`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: authToken,
-        },
-        body: JSON.stringify({
-          ...data,
-          title:
-            data.title.charAt(0).toUpperCase() + data.title.slice(1),
-        }),
-      });
->>>>>>> c7f4fdcdbb970403b190bf6e660be4f7278d19c0
       if (response.status === 200) {
         console.log("Todo created successfully");
         setShowModal(false);
@@ -106,22 +73,11 @@ function Modal({ mode, setShowModal, task, getData }) {
   };
 
   return (
-<<<<<<< HEAD
     <div className="overlay-container">
       <div className="modal-container">
         <div className="title-container">
           <h3 className="modal-title">Let's {mode} your task!</h3>
           <button className="x-button" onClick={() => setShowModal(false)}>
-=======
-    <div className='overlay-container'>
-      <div className='modal-container'>
-        <div className='title-container'>
-          <h3 className='modal-title'>Let's {mode} your task!</h3>
-          <button
-            className='x-button'
-            onClick={() => setShowModal(false)}
-          >
->>>>>>> c7f4fdcdbb970403b190bf6e660be4f7278d19c0
             X
           </button>
         </div>

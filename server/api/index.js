@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const secretKey = process.env.JWT_SECRET;
 app.use(cors());
 app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Welcome to the Todo API");
 });

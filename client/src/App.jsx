@@ -4,7 +4,6 @@ import ListHeader from "./components/ListHeader";
 import ListItem from "./components/ListItem";
 import Auth from "./components/Auth";
 import "./styles/App.css";
-const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -38,8 +37,6 @@ function App() {
 
   console.log(task);
 
-  const sortedTasks =
-    task && task?.sort((a, b) => new Date(a.date) - new Date(b.date));
   const sortedTasks =
     task && task?.sort((a, b) => new Date(a.date) - new Date(b.date));
 
