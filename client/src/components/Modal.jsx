@@ -7,6 +7,7 @@ const serverUrl = import.meta.env.VITE_SERVER_URL;
 function Modal({ mode, setShowModal, task, getData }) {
   const editMode = mode === 'edit' ? true : false;
   const [cookies, setCookies, removeCookies] = useCookies(null);
+  const authToken = cookies.AuthToken;
 
   const [data, setData] = useState({
     user_email: editMode ? task.user_email : cookies.Email,
@@ -18,14 +19,22 @@ function Modal({ mode, setShowModal, task, getData }) {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${serverUrl}/todos/${task.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:8000/todos/${task.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: authToken,
+          },
+          body: JSON.stringify({
+            ...data,
+            title:
+              data.title.charAt(0).toUpperCase() +
+              data.title.slice(1),
+          }),
+        }
+      );
       if (response.status === 200) {
         setShowModal(false);
         getData();
@@ -38,12 +47,16 @@ function Modal({ mode, setShowModal, task, getData }) {
   const postData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${serverUrl}/todos`, {
+      const response = await fetch(`http://localhost:8000/todos`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: authToken,
+        },
         body: JSON.stringify({
           ...data,
-          title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
+          title:
+            data.title.charAt(0).toUpperCase() + data.title.slice(1),
         }),
       });
       if (response.status === 200) {
@@ -68,7 +81,10 @@ function Modal({ mode, setShowModal, task, getData }) {
       <div className='modal-container'>
         <div className='title-container'>
           <h3 className='modal-title'>Let's {mode} your task!</h3>
-          <button className='x-button' onClick={() => setShowModal(false)}>
+          <button
+            className='x-button'
+            onClick={() => setShowModal(false)}
+          >
             X
           </button>
         </div>
