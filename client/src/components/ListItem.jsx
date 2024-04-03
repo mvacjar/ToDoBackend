@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 import ProgressBar from "./ProgressBar";
 import TickIcon from "./TickIcon";
 import Modal from "./Modal";
@@ -8,12 +9,21 @@ const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function ListItem({ task, getData }) {
   const [showModal, setShowModal] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const authToken = cookies.AuthToken;
 
   const deleteItem = async () => {
     try {
-      const response = await fetch(`${serverUrl}/todos/${task.id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://todolist-fullstack-five.vercel.app/todos/${task.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authToken,
+          },
+        }
+      );
       if (response.status === 200) {
         getData();
       }

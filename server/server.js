@@ -1,4 +1,4 @@
-const pool = require("./db");
+const pool = require("../db");
 const PORT = process.env.PORT ?? 8000;
 const express = require("express");
 const app = express();
@@ -6,17 +6,37 @@ const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const secretKey = process.env.JWT_SECRET;
 app.use(cors());
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("Welcome to the Todo API");
+});
+
+// Middleware function to validate JWT token
+const verifyToken = (req, res, next) => {
+  const token = req.headers["authorization"];
+
+  console.log("Token:", token);
+  if (!token) return res.status(401).send({ detail: "Token not provided" });
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    console.log("ERROR:", err);
+
+    if (err)
+      return res.status(403).send({ detail: "Failed to authenticate token" });
+
+    req.userEmail = decoded.email;
+    next();
+  });
+};
 
 //get all todos
-app.get("/todos/:userEmail", async (req, res) => {
-  const userEmail = req.params.userEmail;
+app.get("/todos", verifyToken, async (req, res) => {
   try {
     const todos = await pool.query(
       "SELECT * FROM todos WHERE user_email = $1",
-      [userEmail]
+      [req.userEmail]
     );
     res.json(todos.rows);
   } catch (err) {
@@ -26,7 +46,7 @@ app.get("/todos/:userEmail", async (req, res) => {
 });
 
 // create a new todo
-app.post("/todos", async (req, res) => {
+app.post("/todos", verifyToken, async (req, res) => {
   const { user_email, title, progress, date } = req.body;
   const id = uuidv4();
   try {
@@ -42,7 +62,7 @@ app.post("/todos", async (req, res) => {
 });
 
 // edit a new todo
-app.put("/todos/:id", async (req, res) => {
+app.put("/todos/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const { user_email, title, progress, date } = req.body;
   try {
@@ -58,7 +78,7 @@ app.put("/todos/:id", async (req, res) => {
 });
 
 // delete a todo
-app.delete("/todos/:id", async (req, res) => {
+app.delete("/todos/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   try {
     const deleteToDo = await pool.query("DELETE FROM todos WHERE id = $1;", [
@@ -83,7 +103,9 @@ app.post("/login", async (req, res) => {
       password,
       users.rows[0].hashed_password
     );
-    const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
+    const token = jwt.sign({ email }, secretKey, {
+      expiresIn: "1hr",
+    });
     if (success) {
       res.json({ email: users.rows[0].email, token });
     } else {
@@ -107,19 +129,21 @@ app.post("/signup", async (req, res) => {
       [email, hashedPassword]
     );
 
-    const token = jwt.sign({ email }, "secret", { expiresIn: "1hr" });
+    const token = jwt.sign({ email }, secretKey, {
+      expiresIn: "1hr",
+    });
 
     res.json({ email, token });
   } catch (err) {
     console.error(err);
-    res.status(500).send({ detail: "Internal server error" });
-
-    if (err) {
+    if (err.code === "23505") {
       res.json({ detail: "This email already exists" });
+    } else {
+      res.status(500).send({ detail: "Internal server error" });
     }
   }
 });
-
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+module.exports = app;
