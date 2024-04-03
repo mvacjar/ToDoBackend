@@ -1,4 +1,4 @@
-const pool = require("../db");
+const pool = require("./db");
 const PORT = process.env.PORT ?? 8000;
 const express = require("express");
 const app = express();
@@ -15,7 +15,6 @@ const verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
 
   console.log("Token:", token);
-  if (!token) return res.status(401).send({ detail: "Token not provided" });
 
   jwt.verify(token, secretKey, (err, decoded) => {
     console.log("ERROR:", err);
@@ -27,12 +26,19 @@ const verifyToken = (req, res, next) => {
     next();
   });
 };
+
 //get all todos
-app.get("/todos", verifyToken, async (req, res) => {
+app.get("/todos", async (req, res) => {
+  const userEmail = req.userEmail;
+
+  if (!userEmail) return res.status(401).send({ detail: "Token not provided" });
+
+  console.log("User Email:", userEmail);
+
   try {
     const todos = await pool.query(
       "SELECT * FROM todos WHERE user_email = $1",
-      [req.userEmail]
+      [userEmail]
     );
     res.json(todos.rows);
   } catch (err) {
@@ -139,7 +145,7 @@ app.post("/signup", async (req, res) => {
     }
   }
 });
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-module.exports = app;

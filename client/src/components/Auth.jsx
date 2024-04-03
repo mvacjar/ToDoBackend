@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 
 import "../styles/Auth.css";
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 const Auth = () => {
   const [error, setError] = useState(false);
@@ -30,11 +31,14 @@ const Auth = () => {
       setError("Passwords don't match");
       return;
     }
-    const response = await fetch(`http://localhost:8000/${endpoint}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    const response = await fetch(
+      `https://todolist-fullstack-five.vercel.app/${endpoint}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
     const data = await response.json();
 

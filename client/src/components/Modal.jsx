@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import "../styles/Modal.css";
 import "../styles/App.css";
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function Modal({ mode, setShowModal, task, getData }) {
   const editMode = mode === "edit" ? true : false;
@@ -18,17 +19,20 @@ function Modal({ mode, setShowModal, task, getData }) {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: authToken,
-        },
-        body: JSON.stringify({
-          ...data,
-          title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
-        }),
-      });
+      const response = await fetch(
+        `https://todolist-fullstack-five.vercel.app/todos/${task.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authToken,
+          },
+          body: JSON.stringify({
+            ...data,
+            title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
+          }),
+        }
+      );
       if (response.status === 200) {
         setShowModal(false);
         getData();
@@ -42,7 +46,7 @@ function Modal({ mode, setShowModal, task, getData }) {
     e.preventDefault();
     try {
       const response = await fetch(
-        `https://todolist-fullstack-five.vercel.app/todos`,
+        `https://to-do-backend-rose.vercel.app/todos`,
         {
           method: "POST",
           headers: {

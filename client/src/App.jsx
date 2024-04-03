@@ -4,6 +4,7 @@ import ListHeader from "./components/ListHeader";
 import ListItem from "./components/ListItem";
 import Auth from "./components/Auth";
 import "./styles/App.css";
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -16,11 +17,10 @@ function App() {
   const getData = async () => {
     try {
       const response = await fetch(
-        `https://todolist-fullstack-five.vercel.app/todos`,
+        `https://to-do-backend-rose.vercel.app/todos`,
         {
           headers: {
             authorization: authToken,
-            "X-User-Email": userEmail,
           },
         }
       );
@@ -32,7 +32,9 @@ function App() {
   };
 
   useEffect(() => {
-    getData();
+    if (authToken) {
+      getData();
+    }
   }, []);
 
   console.log(task);
