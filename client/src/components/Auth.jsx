@@ -9,10 +9,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [cookies, setCookies, removeCookies] = useCookies([
-    "Email",
-    "AuthToken",
-  ]);
+  const [cookies, setCookies, removeCookies] = useCookies(null);
   const [isLogIn, setIsLogIn] = useState(true);
 
   const viewLogin = (status) => {
@@ -31,17 +28,12 @@ const Auth = () => {
       setError("Passwords don't match");
       return;
     }
-    const response = await fetch(
-      `https://todolist-fullstack-five.vercel.app/${endpoint}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      }
-    );
-
+    const response = await fetch(`${serverUrl}/${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
     const data = await response.json();
-
     if (response.status === 409) {
       setError("User already exists. Please log in instead.");
     } else if (data.detail) {

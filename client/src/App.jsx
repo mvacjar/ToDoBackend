@@ -12,18 +12,9 @@ function App() {
   const userEmail = cookies.Email;
   const [task, setTask] = useState(null);
 
-  console.log("authToken", authToken);
-
   const getData = async () => {
     try {
-      const response = await fetch(
-        `https://to-do-backend-rose.vercel.app/todos`,
-        {
-          headers: {
-            authorization: authToken,
-          },
-        }
-      );
+      const response = await fetch(`${serverUrl}/todos/${userEmail}`);
       const json = await response.json();
       setTask(json);
     } catch (err) {
@@ -39,8 +30,7 @@ function App() {
 
   console.log(task);
 
-  const sortedTasks =
-    task && task?.sort((a, b) => new Date(a.date) - new Date(b.date));
+  const sortedTasks = task?.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
     <>

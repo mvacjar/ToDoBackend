@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useCookies } from "react-cookie";
-import "../styles/Modal.css";
+import ProgressBar from "./ProgressBar";
+import TickIcon from "./TickIcon";
+import Modal from "./Modal";
 import "../styles/App.css";
+import "../styles/ListItem.css";
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-function Modal({ mode, setShowModal, task, getData }) {
-  const editMode = mode === "edit" ? true : false;
-  const [cookies, setCookies, removeCookies] = useCookies(null);
-  const authToken = cookies.AuthToken;
+function ListItem({ task, getData }) {
+  const [showModal, setShowModal] = useState(false);
 
   const [data, setData] = useState({
     user_email: editMode ? task.user_email : cookies.Email,
@@ -19,20 +19,9 @@ function Modal({ mode, setShowModal, task, getData }) {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `https://to-do-backend-rose.vercel.app/todos/${task.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: authToken,
-          },
-          body: JSON.stringify({
-            ...data,
-            title: data.title.charAt(0).toUpperCase() + data.title.slice(1),
-          }),
-        }
-      );
+      const response = await fetch(`${serverUrl}/todos/${task.id}`, {
+        method: "DELETE",
+      });
       if (response.status === 200) {
         setShowModal(false);
         getData();
@@ -77,44 +66,54 @@ function Modal({ mode, setShowModal, task, getData }) {
   };
 
   return (
-    <div className="overlay-container">
-      <div className="modal-container">
-        <div className="title-container">
-          <h3 className="modal-title">Let's {mode} your task!</h3>
-          <button className="x-button" onClick={() => setShowModal(false)}>
-            X
+    <div className="listItem-container">
+      <div className="wrapper">
+        <div className="data-container">
+          <div className="info-container">
+            <TickIcon />
+            <p className="task-title">{task.title}</p>
+          </div>
+          <div className="progressBar-container">
+            <ProgressBar progress={task.progress} />
+          </div>
+        </div>
+        <div className="button-container">
+          <button className="edit-button" onClick={() => setShowModal(true)}>
+            Edit
+          </button>
+          <button className="delete-button" onClick={deleteItem}>
+            Delete
           </button>
         </div>
-        <form className="form-container">
-          <input
-            type="text"
-            required
-            maxLength={30}
-            placeholder="Write your next task here"
-            name="title"
-            value={data.title}
-            onChange={handleChange}
-          />
-          <label htmlFor="range" className="text-bar">
-            Drag to select your current progress!
-          </label>
-          <input
-            type="range"
-            id="range"
-            required
-            min="0"
-            max="100"
-            name="progress"
-            value={data.progress}
-            onChange={handleChange}
-          />
-          <input
-            className={mode}
-            type="submit"
-            onClick={editMode ? editData : postData}
-            id="submit-button"
-          />
-        </form>
+        {showModal && (
+          <>
+            <Modal
+              mode={"edit"}
+              setShowModal={setShowModal}
+              task={task}
+              getData={getData}
+            />
+            <label htmlFor="range" className="text-bar">
+              Drag to select your current progress!
+            </label>
+            <input
+              type="range"
+              id="range"
+              required
+              min="0"
+              max="100"
+              name="progress"
+              value={data.progress}
+              onChange={handleChange}
+            />
+            <input
+              className={mode}
+              type="submit"
+              onClick={editMode ? editData : postData}
+              id="submit-button"
+            />
+          </>
+        )}
       </div>
     </div>
   );
