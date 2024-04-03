@@ -40,6 +40,8 @@ function App() {
 
   const sortedTasks =
     task && task?.sort((a, b) => new Date(a.date) - new Date(b.date));
+  const sortedTasks =
+    task && task?.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
     <>
